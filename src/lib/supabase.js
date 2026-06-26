@@ -62,7 +62,7 @@ if (!supabaseClient) {
         };
       },
       
-      signUp: async ({ email, password }) => {
+      signUp: async ({ email }) => {
         await new Promise(r => setTimeout(r, 1000)); // Simulate network latency
         
         const mockUser = {
@@ -78,7 +78,7 @@ if (!supabaseClient) {
         return { data: { user: mockUser, session }, error: null };
       },
       
-      signInWithPassword: async ({ email, password }) => {
+      signInWithPassword: async ({ email }) => {
         await new Promise(r => setTimeout(r, 1000)); // Simulate network latency
         
         // Simple mock login validation (any password works for demo)
@@ -105,7 +105,7 @@ if (!supabaseClient) {
     from: (table) => {
       return {
         select: () => ({
-          eq: (col, val) => ({
+          eq: () => ({
             order: () => Promise.resolve({ data: [], error: null }),
             then: (resolve) => resolve({ data: [], error: null })
           }),

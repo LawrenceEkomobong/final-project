@@ -1,41 +1,27 @@
 /** @type {import('tailwindcss').Config} */
 export default {
-  content: [
-    "./index.html",
-    "./src/**/*.{js,ts,jsx,tsx}",
-  ],
+  content: ['./index.html', './src/**/*.{js,ts,jsx,tsx}'],
   theme: {
+    fontFamily: {
+      sans: ['Inter', 'system-ui', 'sans-serif'],
+      serif: ['Playfair Display', 'Georgia', 'serif'],
+      signature: ['Great Vibes', 'cursive'],
+    },
     extend: {
       colors: {
-        primary: {
-          DEFAULT: "#D10000",
-          hover: "#B00000",
-          light: "#FFE5E5",
+        brand: {
+          red: '#D10000',
+          redHover: '#B00000',
+          black: '#121212',
+          charcoal: '#1C1C1C',
+          cream: '#F9F8F6',
+          white: '#FFFFFF',
+          gray: '#6B6B6B',
+          border: '#2A2A2A',
         },
-        dark: {
-          DEFAULT: "#121212",
-          card: "#1E1E1E",
-          border: "#2A2A2A",
-          muted: "#888888",
-        },
-        cream: {
-          DEFAULT: "#F9F8F6",
-          dark: "#EFECE6",
-          card: "#FFFFFF",
-          border: "#E2DEC9",
-        },
-        charcoal: {
-          DEFAULT: "#1C1C1C",
-          muted: "#4A4A4A",
-        }
-      },
-      fontFamily: {
-        serif: ['"Playfair Display"', 'Georgia', 'serif'],
-        sans: ['Inter', 'system-ui', 'sans-serif'],
-        signature: ['"Great Vibes"', 'cursive'],
       },
       borderRadius: {
-        DEFAULT: '0px',
+        md: '0.375rem',
       },
     },
   },

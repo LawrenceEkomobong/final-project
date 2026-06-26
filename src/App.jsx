@@ -1,63 +1,43 @@
-import React, { useState } from 'react';
-import Navbar from './components/Layout/Navbar';
-import Hero from './components/Hero/Hero';
-import About from './components/About/About';
-import Menu from './components/Menu/Menu';
-import SpecialOffers from './components/SpecialOffers/SpecialOffers';
-import Team from './components/Team/Team';
-import Testimonials from './components/Testimonials/Testimonials';
-import Footer from './components/Layout/Footer';
-import WhatsAppCTA from './components/Layout/WhatsAppCTA';
-import CartSlider from './components/Cart/CartSlider';
-import AuthModal from './components/Auth/AuthModal';
-import { CartProvider } from './context/CartContext';
-import './App.css';
+import { useState } from 'react'
+import { Routes, Route, useLocation, useNavigate } from 'react-router-dom'
+import Navbar from './components/layout/Navbar.jsx'
+import Footer from './components/layout/Footer.jsx'
+import AuthModal from './components/Auth/AuthModal.jsx'
+import AdminRoute from './components/Admin/AdminRoute.jsx'
+import HomePage from './pages/HomePage.jsx'
+import MenuPage from './pages/MenuPage.jsx'
+import AboutPage from './pages/AboutPage.jsx'
+import OrderPage from './pages/OrderPage.jsx'
+import CheckoutPage from './pages/CheckoutPage.jsx'
+import ConfirmationPage from './pages/ConfirmationPage.jsx'
+import AdminDashboard from './pages/AdminDashboard.jsx'
 
-function App() {
-  const [isCartOpen, setIsCartOpen] = useState(false);
-  const [isAuthOpen, setIsAuthOpen] = useState(false);
+export default function App() {
+  const [isAuthOpen, setIsAuthOpen] = useState(false)
+  const location = useLocation()
+  const navigate = useNavigate()
+
+  const handleAuthSuccess = () => {
+    setIsAuthOpen(false)
+    if (location.pathname === '/order') {
+      navigate('/checkout')
+    }
+  }
 
   return (
-    <CartProvider>
-      <div className="flex flex-col min-h-screen bg-cream text-charcoal select-none selection:bg-primary selection:text-white">
-        
-        {/* Navigation bar */}
-        <Navbar 
-          onCartToggle={() => setIsCartOpen(!isCartOpen)} 
-          onAuthToggle={() => setIsAuthOpen(true)} 
-        />
-        
-        {/* Main Content Sections */}
-        <main className="flex-grow">
-          <Hero />
-          <About />
-          <Menu />
-          <SpecialOffers />
-          <Team />
-          <Testimonials />
-        </main>
-        
-        {/* Sticky footer */}
-        <Footer />
-        
-        {/* Sticky WhatsApp Floating CTA */}
-        <WhatsAppCTA />
-        
-        {/* Cart Drawer Slide-over */}
-        <CartSlider 
-          isOpen={isCartOpen} 
-          onClose={() => setIsCartOpen(false)} 
-          onAuthOpen={() => setIsAuthOpen(true)}
-        />
-        
-        {/* Authentication Modal */}
-        <AuthModal 
-          isOpen={isAuthOpen} 
-          onClose={() => setIsAuthOpen(false)} 
-        />
-      </div>
-    </CartProvider>
-  );
+    <div className="min-h-screen bg-cream text-[#1C1C1C] selection:bg-brand-red selection:text-white">
+      <Navbar onAuthOpen={() => setIsAuthOpen(true)} />
+      <Routes>
+        <Route path="/" element={<HomePage />} />
+        <Route path="/menu" element={<MenuPage />} />
+        <Route path="/about" element={<AboutPage />} />
+        <Route path="/order" element={<OrderPage onRequestAuth={() => setIsAuthOpen(true)} />} />
+        <Route path="/checkout" element={<CheckoutPage />} />
+        <Route path="/confirmation" element={<ConfirmationPage />} />
+        <Route path="/admin" element={<AdminRoute><AdminDashboard /></AdminRoute>} />
+      </Routes>
+      <Footer />
+      <AuthModal isOpen={isAuthOpen} onClose={() => setIsAuthOpen(false)} onAuthSuccess={handleAuthSuccess} />
+    </div>
+  )
 }
-
-export default App;

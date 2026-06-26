@@ -1,6 +1,9 @@
-const paystackKey = import.meta.env.VITE_PAYSTACK_PUBLIC_KEY; 
+const paystackKey = (import.meta.env.VITE_PAYSTACK_PUBLIC_KEY || '').trim().replace(/;$/, ''); 
 
-const hasKey = paystackKey && paystackKey !== import.meta.env.VITE_PAYSTACK_PUBLIC_KEY;
+const hasKey = paystackKey && 
+  paystackKey !== 'your_paystack_public_key' && 
+  paystackKey !== '' && 
+  paystackKey.startsWith('pk_');
 
 /**
  * Initializes and triggers Paystack payment.
