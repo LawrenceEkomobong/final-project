@@ -1,0 +1,79 @@
+@import "tailwindcss";
+@config "../tailwind.config.js";
+
+/* Custom Base Styles */
+body {
+  background-color: #F9F8F6;
+  color: #1C1C1C;
+  font-family: 'Inter', system-ui, sans-serif;
+  -webkit-font-smoothing: antialiased;
+}
+
+h1, h2, h3, h4, h5, h6 {
+  font-family: 'Playfair Display', Georgia, serif;
+}
+
+/* Custom Utilities */
+.torn-edge-bottom {
+  clip-path: polygon(
+    0% 0%, 
+    100% 0%, 
+    100% 92%,
+    98% 94%, 96% 91%, 94% 95%, 92% 92%, 90% 96%, 88% 93%, 86% 95%, 84% 91%, 82% 94%, 
+    80% 92%, 78% 96%, 76% 93%, 74% 95%, 72% 91%, 70% 94%, 68% 92%, 66% 96%, 64% 93%, 
+    62% 95%, 60% 91%, 58% 94%, 56% 92%, 54% 96%, 52% 93%, 50% 95%, 48% 91%, 46% 94%, 
+    44% 92%, 42% 96%, 40% 93%, 38% 95%, 36% 91%, 34% 94%, 32% 92%, 30% 96%, 28% 93%, 
+    26% 95%, 24% 91%, 22% 94%, 20% 92%, 18% 96%, 16% 93%, 14% 95%, 12% 91%, 10% 94%, 
+    8% 92%, 6% 96%, 4% 93%, 2% 95%, 0% 91%
+  );
+}
+
+.noise-overlay {
+  position: relative;
+}
+.noise-overlay::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  opacity: 0.03;
+  pointer-events: none;
+  z-index: 1;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E");
+}
+
+.custom-scrollbar::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+.custom-scrollbar::-webkit-scrollbar-track {
+  background-color: #EFECE6;
+}
+.custom-scrollbar::-webkit-scrollbar-thumb {
+  background-color: rgba(209, 0, 0, 0.4);
+  transition: background-color 0.2s;
+}
+.custom-scrollbar::-webkit-scrollbar-thumb:hover {
+  background-color: rgba(209, 0, 0, 0.7);
+}
+
+@keyframes pulse-ring {
+  0% {
+    transform: scale(0.95);
+    box-shadow: 0 0 0 0 rgba(209, 0, 0, 0.7);
+  }
+  70% {
+    transform: scale(1);
+    box-shadow: 0 0 0 10px rgba(209, 0, 0, 0);
+  }
+  100% {
+    transform: scale(0.95);
+    box-shadow: 0 0 0 0 rgba(209, 0, 0, 0);
+  }
+}
+
+.pulse-ring-btn {
+  animation: pulse-ring 2s infinite;
+}
