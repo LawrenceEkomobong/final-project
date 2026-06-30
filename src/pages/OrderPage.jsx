@@ -27,7 +27,7 @@ export default function OrderPage({ onRequestAuth }) {
             <button
               type="button"
               onClick={() => navigate('/menu')}
-              className="mt-8 rounded-md bg-brand-red px-6 py-3 text-sm font-semibold text-white transition duration-200 hover:bg-brand-redHover"
+              className="mt-8 rounded-md bg-black px-6 py-3 text-sm font-semibold text-white transition duration-200 hover:bg-brand-redHover"
             >
               Browse Menu
             </button>
@@ -87,13 +87,10 @@ export default function OrderPage({ onRequestAuth }) {
           </div>
 
           <div className="mt-8 flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
-            <div className="rounded-md bg-white p-5 text-sm leading-7 text-[#4F4F4F] shadow-sm">
-              Proceed to checkout to complete your order with secure payment and order tracking.
-            </div>
             <button
               type="button"
               onClick={handleProceed}
-              className="w-full rounded-md bg-brand-red px-6 py-3 text-sm font-semibold text-white transition duration-200 hover:bg-brand-redHover sm:w-auto"
+              className="w-full rounded-md bg-black px-6 py-3 text-sm font-semibold text-white transition duration-200 hover:bg-brand-redHover sm:w-auto"
             >
               Proceed to Checkout
             </button>

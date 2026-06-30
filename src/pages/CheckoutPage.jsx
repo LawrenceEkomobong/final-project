@@ -56,10 +56,11 @@ export default function CheckoutPage() {
         ])
 
         if (saveError) {
-          setError('Order saved, but failed to record in the database. Please contact support.')
-          setSubmitting(false)
-          return
-        }
+  console.error(saveError)
+  setError(saveError.message)
+  setSubmitting(false)
+  return
+}
 
         clearCart()
         setOrderReference(reference)
@@ -170,7 +171,7 @@ export default function CheckoutPage() {
                 type="button"
                 onClick={handlePayment}
                 disabled={submitting}
-                className="w-full rounded-md bg-brand-red px-5 py-3 text-sm font-semibold text-white transition duration-200 hover:bg-brand-redHover disabled:cursor-not-allowed disabled:opacity-60"
+                className="w-full rounded-md bg-black px-5 py-3 text-sm font-semibold text-white transition duration-200 hover:bg-brand-redHover disabled:cursor-not-allowed disabled:opacity-60"
               >
                 {submitting ? 'Processing...' : `Pay ${formatCurrency(getCartTotal())}`}
               </button>

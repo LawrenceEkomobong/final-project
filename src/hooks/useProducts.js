@@ -36,6 +36,7 @@ export function useProducts(categoryFilter = 'All', searchQuery = '') {
     }
   }, [])
 
+
   const filteredProducts = useMemo(() => {
     return products
       .filter((product) => {

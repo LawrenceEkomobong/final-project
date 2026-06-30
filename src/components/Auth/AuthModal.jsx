@@ -63,7 +63,7 @@ export default function AuthModal({ isOpen, onClose, onAuthSuccess }) {
       <div className="w-full max-w-md rounded-md border border-white/10 bg-[#F9F8F6] p-6 shadow-2xl">
         <div className="mb-6 flex items-center justify-between gap-4">
           <div>
-            <p className="text-sm uppercase tracking-[0.25em] text-brand-red">Member access</p>
+            <p className="text-sm uppercase tracking-[0.25em] text-brand-red">Login below</p>
             <h2 className="mt-2 text-2xl font-semibold">{mode === 'login' ? 'Log in to continue' : 'Create your account'}</h2>
           </div>
           <button type="button" onClick={onClose} className="text-sm font-semibold text-[#4F4F4F] hover:text-[#121212]">
@@ -146,7 +146,7 @@ export default function AuthModal({ isOpen, onClose, onAuthSuccess }) {
           <button
             type="submit"
             disabled={loading}
-            className="w-full rounded-md bg-brand-red px-4 py-3 text-sm font-semibold text-white transition duration-200 hover:bg-brand-redHover disabled:cursor-not-allowed disabled:opacity-60"
+            className="w-full rounded-md bg-black px-4 py-3 text-sm font-semibold text-white transition duration-200 hover:bg-brand-redHover disabled:cursor-not-allowed disabled:opacity-60"
           >
             {loading ? 'Please wait…' : mode === 'login' ? 'Continue to Checkout' : 'Create account'}
           </button>

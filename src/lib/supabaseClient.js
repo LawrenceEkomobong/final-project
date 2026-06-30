@@ -4,11 +4,9 @@ const supabaseUrl = (import.meta.env.VITE_SUPABASE_URL || '').trim().replace(/;$
 const supabaseAnonKey = (import.meta.env.VITE_SUPABASE_ANON_KEY || '').trim().replace(/;$/, '')
 
 const hasCredentials =
-  supabaseUrl &&
-  supabaseAnonKey &&
-  !supabaseUrl.includes('your_supabase') &&
-  !supabaseAnonKey.includes('your_supabase') &&
-  supabaseAnonKey.startsWith('eyJ') // Real Supabase keys are JWTs starting with eyJ
+  supabaseUrl.startsWith("https://") &&
+  (supabaseAnonKey.startsWith("eyJ") ||
+   supabaseAnonKey.startsWith("sb_publishable_"))
 
 let supabaseClient
 
