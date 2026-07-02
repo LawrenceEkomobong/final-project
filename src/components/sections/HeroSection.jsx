@@ -1,6 +1,6 @@
 import { Link } from 'react-router-dom'
 import heroImage from '../../assets/Product8.png'
-import heroBackground from '../../assets/Background-image2.jpg'
+import heroBackground from '../../assets/background-image2.jpg'
 
 export default function HeroSection() {
   return (
