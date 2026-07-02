@@ -9,16 +9,16 @@ import { formatCurrency } from '../utils/helpers.js'
 export default function CheckoutPage() {
   const navigate = useNavigate()
   const { user, profile } = useAuthContext()
-  const { cartItems, clearCart, getCartTotal } = useCart()
+  const { cartItems, getCartTotal, clearCart } = useCart()
   const [formValues, setFormValues] = useState({
     fullName: profile?.full_name || '',
     email: user?.email || '',
     phone: profile?.phone || '',
-    address: '',
+    address: profile?.address || '',
   })
   const [error, setError] = useState('')
   const [submitting, setSubmitting] = useState(false)
-  const [orderReference, setOrderReference] = useState(null)
+
 
   const handleChange = (field, value) => {
     setFormValues((prev) => ({ ...prev, [field]: value }))
@@ -26,17 +26,26 @@ export default function CheckoutPage() {
   }
 
   const handlePayment = async () => {
-    if (!formValues.fullName || !formValues.email || !formValues.phone || !formValues.address) {
-      setError('Please complete all fields before payment.')
-      return
-    }
+  if (
+    !formValues.fullName ||
+    !formValues.email ||
+    !formValues.phone ||
+    !formValues.address
+  ) {
+    setError('Please complete all fields before payment.')
+    return
+  }
 
-    setSubmitting(true)
-    const amount = getCartTotal()
-    initializePaystackCheckout({
-      email: formValues.email,
-      amount,
-      onSuccess: async ({ reference }) => {
+  setSubmitting(true)
+
+  const amount = getCartTotal()
+
+  initializePaystackCheckout({
+    email: formValues.email,
+    amount,
+
+    onSuccess: async ({ reference }) => {
+      try {
         const items = cartItems.map((item) => ({
           id: item.id,
           name: item.name,
@@ -44,34 +53,63 @@ export default function CheckoutPage() {
           quantity: item.quantity,
         }))
 
-        const { error: saveError } = await supabase.from('orders').insert([
-          {
-            user_id: user?.id,
-            items,
-            total_amount: amount,
-            status: 'pending',
-            delivery_address: formValues.address,
-            payment_ref: reference,
-          },
-        ])
+        const {
+          data: orderData,
+          error: saveError,
+        } = await supabase
+          .from('orders')
+          .insert([
+            {
+              user_id: user?.id,
+
+              customer_name: formValues.fullName,
+              customer_email: formValues.email,
+              customer_phone: formValues.phone,
+
+              items,
+              total_amount: amount,
+              status: 'pending',
+              delivery_address: formValues.address,
+              payment_ref: reference,
+            },
+          ])
+          .select()
+          .single()
 
         if (saveError) {
-  console.error(saveError)
-  setError(saveError.message)
-  setSubmitting(false)
-  return
-}
+          console.error(saveError)
+          setError(
+            'Payment was successful, but we could not save your order. Please contact support with your payment reference.'
+          )
+          setSubmitting(false)
+          return
+        }
 
-        clearCart()
-        setOrderReference(reference)
+        await supabase
+          .from('profiles')
+          .update({
+            phone: formValues.phone,
+            address: formValues.address,
+          })
+          .eq('id', user.id)
+
+        await clearCart()
+
+        navigate(`/confirmation/${orderData.id}`)
+
+      } catch (err) {
+        console.error(err)
+        setError('Something went wrong. Please try again.')
+      } finally {
         setSubmitting(false)
-        navigate('/confirmation', { state: { reference } })
-      },
-      onClose: () => {
-        setSubmitting(false)
-      },
-    })
-  }
+      }
+    },
+
+    onClose: () => {
+      setSubmitting(false)
+    },
+  })
+}
 
   if (!cartItems.length) {
     return (

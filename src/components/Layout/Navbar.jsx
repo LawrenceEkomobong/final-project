@@ -1,25 +1,47 @@
-import { useState } from 'react'
-import { Link, NavLink } from 'react-router-dom'
+import { useEffect, useState } from 'react'
+import { Link, NavLink, useLocation } from 'react-router-dom'
 import { useCart } from '../../context/CartContext.jsx'
 import { useAuthContext } from '../../context/AuthContext.jsx'
 import logoSrc from '../../assets/Logo.png'
+import cartIcon from '../../assets/cart-icon.png'
 
 const navLinks = [
-  { label: 'Home', to: '/' },
-  { label: 'Menu', to: '/menu' },
-  { label: 'About', to: '/about' },
-  { label: 'Order', to: '/order' },
+  { label: 'HOME', to: '/' },
+  { label: 'MENU', to: '/menu' },
+  { label: 'ABOUT', to: '/about' },
+  { label: 'ORDER', to: '/order' },
 ]
 
 export default function Navbar({ onAuthOpen }) {
   const [mobileOpen, setMobileOpen] = useState(false)
+  const [scrolled, setScrolled] = useState(false)
   const { getCartCount } = useCart()
   const cartCount = getCartCount()
+  const location = useLocation()
+  const isHomePage = location.pathname === '/'
   const { profile, isAuthenticated, signOut } = useAuthContext()
+  useEffect(() => {
+  const handleScroll = () => {
+    setScrolled(window.scrollY > 50)
+  }
+
+  window.addEventListener('scroll', handleScroll)
+
+  return () => window.removeEventListener('scroll', handleScroll)
+}, [])
+  
 
   return (
-    <header className="fixed inset-x-0 top-0 z-50 bg-black border-b border-[#2A2A2A]/80 text-white shadow-black/10 backdrop-blur-md">
-      <div className="mx-auto flex max-w-7xl items-center justify-between px-4 py-4 sm:px-6 lg:px-8">
+   <header
+  className={`fixed inset-x-0 top-0 z-50 text-white transition-all duration-300 shadow-lg ${
+    isHomePage
+      ? scrolled
+        ? 'bg-black/90 backdrop-blur-md shadow-lg'
+        : 'bg-transparent'
+      : 'bg-black/90 backdrop-blur-md shadow-lg'
+  }`}
+>
+      <div className="mx-auto flex max-w-7xl items-center justify-between px-6 py-3 lg:px-8">
         <Link to="/" className="flex items-center gap-3 text-sm font-semibold uppercase tracking-[0.18em] text-white">
           <img src={logoSrc} alt="KBI Food Empire" className="h-10 w-10 rounded-md object-cover" />
         </Link>
@@ -30,12 +52,26 @@ export default function Navbar({ onAuthOpen }) {
               key={link.to}
               to={link.to}
               className={({ isActive }) =>
-                `text-sm font-medium transition duration-200  ${isActive ? 'text-brand-red underline underline-offset-8 decoration-2 decoration-brand-red' : 'text-white/80 hover:text-white'}`
+                `text-md font-medium transition duration-200  ${isActive ? 'text-brand-red underline underline-offset-8 decoration-2 decoration-brand-red' : 'text-white/80 hover:text-white'}`
               }
             >
               {link.label}
             </NavLink>
           ))}
+          {isAuthenticated && (
+  <NavLink
+    to="/orders"
+    className={({ isActive }) =>
+      `text-md font-medium transition duration-200 ${
+        isActive
+          ? 'text-brand-red underline underline-offset-8 decoration-2 decoration-brand-red'
+          : 'text-white/80 hover:text-white'
+      }`
+    }
+  >
+    MY ORDERS
+  </NavLink>
+)}
           {profile?.role === 'admin' && (
             <NavLink
               to="/admin"
@@ -52,13 +88,13 @@ export default function Navbar({ onAuthOpen }) {
           <button
             type="button"
             onClick={isAuthenticated ? signOut : onAuthOpen}
-            className="rounded-md border border-white/10 bg-white/5 px-4 py-2 text-sm font-semibold text-white transition duration-200 hover:border-white/20 hover:bg-white/10"
+            className="rounded-md border border-white/10 bg-white/20 px-4 py-2 text-sm font-semibold text-white transition duration-200 hover:border-white/20 hover:bg-white/10"
           >
             {isAuthenticated ? 'Logout' : 'Login'}
           </button>
 
-          <Link to="/order" className="group relative inline-flex items-center rounded-md border border-white/10 bg-white/5 px-1 py-2 text-sm font-semibold text-white transition duration-200 hover:border-white/20 hover:bg-white/10">
-            <img src="src\assets\cart-icon.png" alt="Cart" className="h-8 w-8 transition duration-200 group-hover:scale-110" />
+          <Link to="/order" className="group relative inline-flex items-center rounded-md border border-white/10 bg-white/10 px-1 py-2 text-sm font-semibold text-white transition duration-200 hover:border-white/20 hover:bg-white/10">
+            <img src={cartIcon} alt="Cart" className="h-8 w-8 transition duration-200 group-hover:scale-110" />
             <span className={`inline-flex h-7 min-w-[1.75rem] items-center justify-center rounded-full bg-brand-red text-xs font-bold text-white relative bottom-2 transition duration-200 ${cartCount === 0 ? 'opacity-0' : 'opacity-100'}`}>
               {cartCount}
             </span>
@@ -92,6 +128,21 @@ export default function Navbar({ onAuthOpen }) {
                 {link.label}
               </NavLink>
             ))}
+            {isAuthenticated && (
+  <NavLink
+    to="/orders"
+    onClick={() => setMobileOpen(false)}
+    className={({ isActive }) =>
+      `block rounded-md px-3 py-2 text-sm font-semibold transition duration-200 ${
+        isActive
+          ? 'bg-white/10 text-white'
+          : 'text-white/80 hover:bg-white/5 hover:text-white'
+      }`
+    }
+  >
+    My Orders
+  </NavLink>
+)}
             {profile?.role === 'admin' && (
               <NavLink
                 to="/admin"

@@ -13,9 +13,9 @@ export default function ImageLightbox({ isOpen, onClose, product }) {
         <button
           type="button"
           onClick={onClose}
-          className="absolute right-4 top-4 rounded-full border border-white/20 bg-black/70 px-3 py-2 text-sm font-semibold text-white transition duration-200 hover:bg-white/10"
+          className="absolute right-4 top-4 border border-white/20 bg-black/70 px-5 py-2 text-sm font-semibold text-white transition duration-200 hover:bg-white/10"
         >
-          Close
+          x
         </button>
 
         <div className="grid gap-6 lg:grid-cols-[1.2fr_0.8fr]">

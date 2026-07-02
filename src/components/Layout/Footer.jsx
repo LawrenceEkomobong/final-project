@@ -41,9 +41,9 @@ export default function Footer() {
           <div>
             <h3 className="mb-4 text-sm font-semibold uppercase tracking-[0.22em] text-white">Contact</h3>
             <div className="space-y-2 text-sm text-white/70">
-              <p>hello@kbifoodempire.com</p>
-              <p>+234 800 123 4567</p>
-              <p>Lagos, Nigeria</p>
+              <p>kufreabasimo@gmail.com</p>
+              <p>+234 802 090 4487</p>
+              <p>Uyo, Nigeria</p>
             </div>
           </div>
           <div>
@@ -57,7 +57,7 @@ export default function Footer() {
         </div>
       </div>
       <div className="border-t border-white/10 px-4 py-5 text-center text-xs text-white/50 sm:px-6 lg:px-8">
-        © 2025 KBI Food Empire. All rights reserved.
+        © 2026 KBI Food Empire. All rights reserved.
       </div>
     </footer>
   )

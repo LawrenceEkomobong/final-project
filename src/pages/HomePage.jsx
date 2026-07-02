@@ -9,7 +9,7 @@ export default function HomePage() {
   const { featuredProducts, loading } = useProducts()
 
   return (
-    <main className="pt-24">
+    <main>
       <HeroSection />
       <FeaturedMenu products={featuredProducts} loading={loading} />
       <WhyChooseUs />

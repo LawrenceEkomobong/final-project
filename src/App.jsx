@@ -11,6 +11,8 @@ import OrderPage from './pages/OrderPage.jsx'
 import CheckoutPage from './pages/CheckoutPage.jsx'
 import ConfirmationPage from './pages/ConfirmationPage.jsx'
 import AdminDashboard from './pages/AdminDashboard.jsx'
+import MyOrders from './pages/MyOrders.jsx'
+import OrderDetails from './pages/OrderDetails.jsx'
 
 export default function App() {
   const [isAuthOpen, setIsAuthOpen] = useState(false)
@@ -33,7 +35,9 @@ export default function App() {
         <Route path="/about" element={<AboutPage />} />
         <Route path="/order" element={<OrderPage onRequestAuth={() => setIsAuthOpen(true)} />} />
         <Route path="/checkout" element={<CheckoutPage />} />
-        <Route path="/confirmation" element={<ConfirmationPage />} />
+        <Route path="/confirmation/:id" element={<ConfirmationPage />} />
+        <Route path="/orders" element={<MyOrders />} />
+        <Route path="/orders/:id" element={<OrderDetails />} />
         <Route path="/admin" element={<AdminRoute><AdminDashboard /></AdminRoute>} />
       </Routes>
       <Footer />
