@@ -10,9 +10,14 @@ import AboutPage from './pages/AboutPage.jsx'
 import OrderPage from './pages/OrderPage.jsx'
 import CheckoutPage from './pages/CheckoutPage.jsx'
 import ConfirmationPage from './pages/ConfirmationPage.jsx'
-import AdminDashboard from './pages/AdminDashboard.jsx'
+import AdminDashboard from './pages/Admin/AdminDashboard.jsx'
 import MyOrders from './pages/MyOrders.jsx'
 import OrderDetails from './pages/OrderDetails.jsx'
+import AdminOrderDetails from './pages/AdminOrderDetails.jsx'
+import AdminProducts from './pages/Admin/AdminProducts.jsx'
+import AdminLayout from './components/Admin/AdminLayout.jsx'
+
+
 
 export default function App() {
   const [isAuthOpen, setIsAuthOpen] = useState(false)
@@ -38,7 +43,40 @@ export default function App() {
         <Route path="/confirmation/:id" element={<ConfirmationPage />} />
         <Route path="/orders" element={<MyOrders />} />
         <Route path="/orders/:id" element={<OrderDetails />} />
-        <Route path="/admin" element={<AdminRoute><AdminDashboard /></AdminRoute>} />
+        <Route
+  path="/admin"
+  element={
+    <AdminRoute>
+      <AdminLayout />
+    </AdminRoute>
+  }
+>
+  <Route
+    index
+    element={<AdminDashboard />}
+  />
+
+  <Route
+    path="products"
+    element={<AdminProducts />}
+  />
+</Route>
+        <Route
+        path="/admin/orders/:id"
+        element={
+          <AdminRoute>
+            <AdminOrderDetails />
+          </AdminRoute>
+              }
+            />
+            <Route
+        path="/admin/products"
+        element={
+          <AdminRoute>
+            <AdminProducts />
+          </AdminRoute>
+        }
+      />
       </Routes>
       <Footer />
       <AuthModal isOpen={isAuthOpen} onClose={() => setIsAuthOpen(false)} onAuthSuccess={handleAuthSuccess} />

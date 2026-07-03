@@ -1,7 +1,9 @@
+import { useNavigate } from 'react-router-dom'
 import { supabase } from '../../lib/supabaseClient'
 import { formatCurrency } from '../../utils/helpers'
 
 export default function OrderCard({ order, setOrders }) {
+  const navigate = useNavigate()
   const updateStatus = async (newStatus) => {
     const { error } = await supabase
       .from('orders')
@@ -25,7 +27,10 @@ export default function OrderCard({ order, setOrders }) {
   }
 
   return (
-    <div className="rounded-xl border border-[#E2DEC9] bg-[#F9F8F6] p-5">
+    <div
+  onClick={() => navigate(`/admin/orders/${order.id}`)}
+  className="cursor-pointer rounded-xl border border-[#E2DEC9] bg-[#F9F8F6] p-5 transition hover:border-brand-red hover:shadow-md"
+>
 
       <div className="flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-between">
 
@@ -41,6 +46,7 @@ export default function OrderCard({ order, setOrders }) {
 
         <select
           value={order.status || 'pending'}
+          onClick={(e) => e.stopPropagation()}
           onChange={(e) => updateStatus(e.target.value)}
           className="rounded-md border border-gray-300 bg-white px-3 py-2 text-sm font-semibold"
         >

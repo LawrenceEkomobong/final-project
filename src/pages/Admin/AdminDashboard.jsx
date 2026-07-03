@@ -1,9 +1,9 @@
 import { useEffect, useState } from 'react'
-import { supabase } from '../lib/supabaseClient.js'
-import { formatCurrency } from '../utils/helpers.js'
-import DashboardStats from '../components/Admin/DashboardStats'
-import OrderFilters from '../components/Admin/OrderFilters'
-import OrdersList from '../components/Admin/OrdersList'
+import { supabase } from '../../lib/supabaseClient.js'
+import { formatCurrency } from '../../utils/helpers.js'
+import DashboardStats from '../../components/Admin/DashboardStats.jsx'
+import OrderFilters from '../../components/Admin/OrderFilters.jsx'
+import OrdersList from '../../components/Admin/OrdersList.jsx'
 
 export default function AdminDashboard() {
   const [orders, setOrders] = useState([])
@@ -73,8 +73,8 @@ export default function AdminDashboard() {
   }
 
   return (
-    <main className="pt-24 bg-cream text-[#1C1C1C]">
-      <section className="mx-auto max-w-6xl px-4 py-20 sm:px-6 lg:px-8">
+    <main className="pt-10 bg-cream text-[#1C1C1C]">
+      <section className="mx-auto max-w-6xl px-4 py-20 sm:px-6 lg:px-8 flex flex-col gap-5">
         <div className="mb-10 rounded-md border border-[#E2DEC9] bg-white p-8 shadow-sm">
           <p className="text-sm uppercase tracking-[0.28em] text-brand-red">Admin Dashboard</p>
           <h1 className="mt-4 text-4xl font-semibold">Order management</h1>
@@ -116,15 +116,7 @@ export default function AdminDashboard() {
     </button>
     
   ))}
-  <div className="mt-6">
-  <input
-    type="text"
-    placeholder="Search by customer, phone, email or reference..."
-    value={search}
-    onChange={(e) => setSearch(e.target.value)}
-    className="w-full rounded-md border border-gray-300 px-4 py-3 outline-none focus:border-brand-red"
-  />
-</div>
+  
 </div>
     <div className="mt-6">
   <OrdersList
